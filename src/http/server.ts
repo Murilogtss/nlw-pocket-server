@@ -6,6 +6,7 @@ import {
 } from 'fastify-type-provider-zod'
 import { createGoal } from '../functions/create-goal'
 import z from 'zod'
+import { getWeekPedingGoals } from '../functions/get-week-pending-goals'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -31,6 +32,11 @@ app.post(
     })
   }
 )
+
+app.get('/peding-goals', async () => {
+  const { pendingGoals } = await getWeekPedingGoals()
+  return { pendingGoals }
+})
 
 app.listen({ port: 3333 }).then(() => {
   console.log('HTTP Server running on http://localhost:3333')
